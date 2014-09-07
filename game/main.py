@@ -6,6 +6,7 @@ import engine.rpg as rpg
 
 import game.scripts.intro as intro
 import game.scripts.archer1 as archer1
+import game.scripts.rocksimple as rocksimple
 import game.maps.village1 as village1
 from game.menus import *
 
@@ -13,8 +14,7 @@ class HarjaGame(engine.Game):
   def __init__(self):
     engine.Game.__init__(self)
     engine.gamegeneral.levels["intro"] = vnovel.VNovelLevel(intro)
-    engine.gamegeneral.levels["archer1"] = vnovel.VNovelLevel(archer1)
-    engine.gamegeneral.levels["village1"] = rpg.RPGUnderworldLevel(village1)
+    engine.gamegeneral.levels["village1"] = rpg.RPGOverworldLevel(village1)
     engine.gamegeneral.level = engine.gamegeneral.levels["intro"]
     self.menu = PrimaryMenu()
     self.inmenu = False

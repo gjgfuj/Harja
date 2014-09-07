@@ -1,11 +1,20 @@
 import pygame
 import os
+import importlib
 from engine import *
+import engine.vnovel as vnovel
 from engine.rpg import *
 class RPGLevel(Level):
   def __init__(self, mapfile):
     Level.__init__(self)
     self.mapfile = mapfile
+    try:
+      for script in self.mapfile.scripts:
+        s = importlib.import_module("game.scripts."+script)
+        gamegeneral.levels[script] = vnovel.VNovelLevel(s)
+        print "Imported "+script
+    except AttributeError:
+      print "No scripts."
     self.bindings = {}
     for key in self.mapfile.bindings:
       self.bindings[key] = pygame.image.load(os.path.join("assets", "tiles", self.mapfile.bindings[key]))
@@ -15,6 +24,8 @@ class RPGLevel(Level):
         self.player = PlayerEvent(event, self)
       elif event["type"] == "level":
         self.events.append(LevelEvent(event, self))
+      elif event["type"] == "block":
+        self.events.append(BlockEvent(event, self))
   def logic(self):
     for event in self.events:
       if (not event.interactive) and event.position == self.player.position:
@@ -45,21 +56,25 @@ class RPGLevel(Level):
           event.interact()	
     elif event == "up":
       if self.player.position[1] != 0:
-        if self.mapfile.movement[self.mapfile.m[self.player.position[0]][self.player.position[1]-1]]:
+        if self.mapfile.movement[self.mapfile.m[self.player.position[1]-1][self.player.position[0]]]:
+          self.player.oldposition = self.player.position
           self.player.position = (self.player.position[0], self.player.position[1]-1)
     elif event == "down":
       try:
-        if self.mapfile.movement[self.mapfile.m[self.player.position[0]][self.player.position[1]+1]]:
+        if self.mapfile.movement[self.mapfile.m[self.player.position[1]+1][self.player.position[0]]]:
+          self.player.oldposition = self.player.position
           self.player.position = (self.player.position[0], self.player.position[1]+1)
       except IndexError:
         pass
     elif event == "left":
       if self.player.position[0] != 0:
-        if self.mapfile.movement[self.mapfile.m[self.player.position[0]-1][self.player.position[1]]]:
+        if self.mapfile.movement[self.mapfile.m[self.player.position[1]][self.player.position[0]-1]]:
+          self.player.oldposition = self.player.position
           self.player.position = (self.player.position[0]-1, self.player.position[1])
     elif event == "right":
       try:
-        if self.mapfile.movement[self.mapfile.m[self.player.position[0]+1][self.player.position[1]]]:
+        if self.mapfile.movement[self.mapfile.m[self.player.position[1]][self.player.position[0]+1]]:
+          self.player.oldposition = self.player.position
           self.player.position = (self.player.position[0]+1, self.player.position[1])
       except IndexError:
         pass
