@@ -21,6 +21,7 @@ class RPGLevel(Level):
         self.bindings[key] = pygame.image.load(os.path.join("assets", "tiles", self.mapfile.bindings[key]))
       except pygame.error:
         pass
+  def init(self):
     self.events = []
     for event in self.mapfile.events:
       if event["type"] == "player":

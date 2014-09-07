@@ -3,13 +3,22 @@ import pygame
 
 class PrimaryMenu(Menu):
   def __init__(self):
-    Menu.__init__(self, [("Options", self.options, None), ("Back", self.prevmenu, None)], (500, 300), True)
+    Menu.__init__(self, [("Stats", self.stats, None), ("Options", self.options, None), ("Back", self.prevmenu, None)], (400, 300), True)
     self.optionsmenu = OptionsMenu()
+    self.statsmenu = StatsMenu()
   def options(self, a):
-    self.optionsmenu.entermenu(self.oldlevel)
+    self.optionsmenu.entermenu(self)
+  def stats(self, a):
+    self.statsmenu.entermenu(self)
+class StatsMenu(Menu):
+  def __init__(self):
+    Menu.__init__(self, [("Back", self.prevmenu, None)], (500, 500), True)
+  def render(self):
+    Menu.render(self)
+    gamegeneral.display.blit(self.font.render("Karma: "+str(gamegeneral.game.globalvars["karma"]), True, self.boxcolor), (200, 200))
 class OptionsMenu(Menu):
   def __init__(self):
-    Menu.__init__(self, [("Fullscreen", self.fullscreen, None), ("Back", self.prevmenu, None)], (500, 300), True)
+    Menu.__init__(self, [("Fullscreen", self.fullscreen, None), ("Back", self.prevmenu, None)], (400, 300), True)
     self.fullscreen = False
   def fullscreen(self, a):
     if self.fullscreen:

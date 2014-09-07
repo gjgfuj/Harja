@@ -5,13 +5,21 @@ class Menu(engine.Level):
     engine.Level.__init__(self)
     self.options = {}
     self.color = color
+    self.boxcolor = (0,0,255)
     self.oldlevel = self
     x = coords[0]
+    nux = 0
     y = coords[1]
+    nuy = 0
+    self.boxrect = (x, y, 0, 0)
     for option in options:
       self.options[(x, y, self.font.render(option[0], False, color).get_width()+10, 30)] = option
       if vertical:
         y += 30
+        nuy += 30
+        if self.font.render(option[0], False, color).get_width()+10 > nux:
+          nux = self.font.render(option[0], False, color).get_width()+10
+        self.boxrect = (self.boxrect[0], self.boxrect[1], nux, nuy)
       else:
         x += self.font.render(option, False, color).get_width()+10
   def entermenu(self, level):
@@ -24,6 +32,7 @@ class Menu(engine.Level):
     engine.gamegeneral.game.inmenu = False
   def render(self):
     engine.Level.render(self)
+    engine.gamegeneral.display.fill(self.boxcolor, self.boxrect)
     for option in self.options:
       engine.gamegeneral.display.blit(self.font.render(self.options[option][0], False, self.color), option)
   def handleevent(self, event):

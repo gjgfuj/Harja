@@ -17,6 +17,7 @@ class VNovelLevel(level.Level):
     Level.__init__(self)
     self.script = script.script
     self.color = (255,255,255)
+    self.boxcolor = (155, 110, 40)
     self.speakercolor = (255,255,255)
     self.index = 0
     self.indexchanged = True
@@ -52,10 +53,15 @@ class VNovelLevel(level.Level):
           self.background = pygame.image.load(os.path.join("assets", "bg", actiondef["filename"]))
         elif action == "bgcolor":
           self.background.fill(actiondef["color"])
+        elif action == "boxcolor":
+          self.boxcolor = actiondef["color"]
         elif action == "bgsurface":
           self.background = actiondef["surface"]
         elif action == "menu":
-          VNovelMenu(self, actiondef["options"], self.color).entermenu(self)
+          menu = VNovelMenu(self, actiondef["options"], self.color)
+          menu.background = self.background
+          menu.boxcolor = self.boxcolor
+          menu.entermenu(self)
           #self.index += 1
         elif action == "set":
           try:
@@ -160,6 +166,7 @@ class VNovelLevel(level.Level):
   def render(self):
     Level.render(self)
     y = 375
+    gamegeneral.display.fill(self.boxcolor, (20, 375, 560, 100))
     try:
       gamegeneral.display.blit(self.font.render(self.speaker, True, self.speakercolor), (20, y))
     except KeyError:

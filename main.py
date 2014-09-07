@@ -11,6 +11,8 @@ game.general.eventhandler = engine.EventHandler()
 game.general.level = engine.Level()
 def main():
   import game.main
+  for level in game.general.levels:
+    game.general.levels[level].init()
   while game.general.isRunning:
     for event in pygame.event.get():
       try:

@@ -12,3 +12,5 @@ class Level:
     engine.gamegeneral.display.blit(self.background, (0,0))
   def handleevent(self, event):
     return False
+  def init(self):
+    pass
