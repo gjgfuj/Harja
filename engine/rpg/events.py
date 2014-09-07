@@ -27,6 +27,14 @@ class Event:
       self.interactive = eventdesc["interactive"]
     except KeyError:
       self.interactive = False
+    try:
+      self.takescreenshot = eventdesc["screenshot"]
+    except KeyError:
+      self.takescreenshot = False
+  def changelevel(self, level):
+    if self.takescreenshot:
+      level.background = gamegeneral.display.copy()
+    gamegeneral.level = level
   def interact(self):
     pass
   def logic(self):
@@ -59,7 +67,6 @@ class BlockEvent(Event):
       return
     if self.position == self.endposition:
       print "Reached end position."
-      gamegeneral.level = self.endlevel
 class PlayerEvent(Event):
   def __init__(self, eventdesc, level):
     Event.__init__(self, eventdesc, level)
