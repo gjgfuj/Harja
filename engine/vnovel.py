@@ -10,7 +10,7 @@ class VNovelMenu(menu.Menu):
     menu.Menu.__init__(self, nuoptions, (150, 150), True, color)
   def setflag(self, flag):
     print flag
-    self.level.levelvars["menu"] = flag
+    gamegeneral.game.globalvars["menu"] = flag
     self.prevmenu(flag)
 class VNovelLevel(level.Level):
   def __init__(self, script):
@@ -73,11 +73,6 @@ class VNovelLevel(level.Level):
             print "changetile IndexError"
         elif action == "set":
           try:
-            actiondef["global"]
-            g = True
-          except KeyError:
-            g = False
-          try:
             key = actiondef["key"]
           except KeyError:
             key = "flag"
@@ -85,17 +80,9 @@ class VNovelLevel(level.Level):
             value = actiondef["value"]
           except KeyError:
             value = True
-          if g:
-            gamegeneral.game.globalvars[key] = value
-          else:
-            self.levelvars[key] = value
+          gamegeneral.game.globalvars[key] = value
         elif action == "add":
           try:
-            actiondef["global"]
-            g = True
-          except KeyError:
-            g = False
-          try:
             key = actiondef["key"]
           except KeyError:
             key = "flag"
@@ -104,21 +91,10 @@ class VNovelLevel(level.Level):
           except KeyError:
             value = True
           try:
-            if g:
-              gamegeneral.game.globalvars[key] += value
-            else:
-              self.levelvars[key] += value
+            gamegeneral.game.globalvars[key] += value
           except KeyError:
-            if g:
-              gamegeneral.game.globalvars[key] = value
-            else:
-              self.levelvars[key] = value
+            gamegeneral.game.globalvars[key] = value
         elif action == "test":
-          try:
-            actiondef["global"]
-            g = True
-          except KeyError:
-            g = False
           try:
             key = actiondef["key"]
           except KeyError:
@@ -132,12 +108,11 @@ class VNovelLevel(level.Level):
           except KeyError:
             test = "="
           try:
-            if g:
-              var = gamegeneral.game.globalvars[key]
-            else:
-              var = self.levelvars[key]
+            var = gamegeneral.game.globalvars[key]
           except KeyError:
-            continue
+            gamegeneral.game.globalvars[key] = 0
+            var = 0
+          print str(var)+test+str(value)
           if test == "=":
             if var == value:
               self.index = actiondef["index"]
@@ -147,7 +122,7 @@ class VNovelLevel(level.Level):
               self.index = actiondef["index"]
               self.indexchanged = True
           if test == ">":
-            if var >  value:
+            if var > value:
               self.index = actiondef["index"]
               self.indexchanged = True
     except IndexError:
@@ -181,7 +156,9 @@ class VNovelLevel(level.Level):
       pass
     y += 25
     try:
-      gamegeneral.display.blit(self.font.render(self.script[self.index]["line"], True, self.color), (40, y))
+      for line in self.script[self.index]["line"].splitlines():
+        gamegeneral.display.blit(self.font.render(line, True, self.color), (40, y))
+        y += 20
     except IndexError:
       pass
     except KeyError:
