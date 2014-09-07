@@ -63,6 +63,14 @@ class VNovelLevel(level.Level):
           menu.boxcolor = self.boxcolor
           menu.entermenu(self)
           #self.index += 1
+        elif action == "changetile":
+          try:
+            level = gamegeneral.levels[actiondef["level"]]
+            level.mapfile.m[actiondef["position"][1]][actiondef["position"][0]] = actiondef["tile"]
+          except KeyError:
+            print "changetile KeyError"
+          except IndexError:
+            print "changetile IndexError"
         elif action == "set":
           try:
             actiondef["global"]

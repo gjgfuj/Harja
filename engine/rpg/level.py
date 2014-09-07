@@ -15,6 +15,7 @@ class RPGLevel(Level):
         print "Imported "+script
     except AttributeError:
       print "No scripts."
+    self.topleft = (600/2-len(self.mapfile.m[0])*30/2, 600/2-len(self.mapfile.m)*30/2)
     self.bindings = {}
     for key in self.mapfile.bindings:
       try:
@@ -42,15 +43,15 @@ class RPGLevel(Level):
     for ax in self.mapfile.m:
       for ay in ax:
         try:
-          gamegeneral.display.blit(self.bindings[ay], (x*30, y*30))
+          gamegeneral.display.blit(self.bindings[ay], (self.topleft[0]+x*30, self.topleft[1]+y*30))
         except KeyError:
           pass
         x += 1
       x = 0
       y += 1
-    gamegeneral.display.blit(self.player.sprite, (self.player.position[0]*30, self.player.position[1]*30))
+    gamegeneral.display.blit(self.player.sprite, (self.topleft[0]+self.player.position[0]*30, self.topleft[1]+self.player.position[1]*30))
     for event in self.events:
-      gamegeneral.display.blit(event.sprite, (event.position[0]*30, event.position[1]*30))
+      gamegeneral.display.blit(event.sprite, (self.topleft[0]+event.position[0]*30, self.topleft[1]+event.position[1]*30))
   def handleevent(self, event):
     if Level.handleevent(self, event):
       return True
@@ -89,4 +90,4 @@ class RPGOverworldLevel(RPGLevel):
 class RPGUnderworldLevel(RPGLevel):
   def __init__(self, mapfile):
     RPGLevel.__init__(self, mapfile)
-    self.background.fill((200,70,40))
+    self.background.fill((0,0,0))

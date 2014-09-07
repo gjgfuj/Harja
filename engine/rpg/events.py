@@ -64,6 +64,7 @@ class BlockEvent(Event):
     except KeyError:
       print "Error at position"
       self.endposition = (-1, -1)
+    endlevel = ""
     try:
       endlevel = eventdesc["level"]
     except KeyError:
