@@ -15,12 +15,12 @@ from game.menus import *
 class HarjaGame(engine.Game):
   def __init__(self):
     engine.Game.__init__(self)
-    engine.gamegeneral.levels["village1"] = rpg.RPGOverworldLevel(village1)
-    engine.gamegeneral.levels["village1house1"] = rpg.RPGUnderworldLevel(village1house1)
-    engine.gamegeneral.levels["village1house2"] = rpg.RPGUnderworldLevel(village1house2)
-    engine.gamegeneral.levels["village2"] = rpg.RPGOverworldLevel(village2)
-    engine.gamegeneral.levels["forest1"] = rpg.RPGOverworldLevel(forest1)
-    engine.gamegeneral.levels["hiddenvillage"] = rpg.RPGOverworldLevel(hiddenvillage)
+    self.importmap("village1", rpg.RPGOverworldLevel)
+    self.importmap("village1house1", rpg.RPGUnderworldLevel)
+    self.importmap("village1house2", rpg.RPGUnderworldLevel)
+    self.importmap("village2", rpg.RPGOverworldLevel)
+    self.importmap("forest1", rpg.RPGOverworldLevel)
+    self.importmap("hiddenvillage", rpg.RPGOverworldLevel)
     engine.gamegeneral.level = engine.gamegeneral.levels["intro"]
     self.menu = PrimaryMenu()
     self.inmenu = False

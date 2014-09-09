@@ -35,7 +35,7 @@ movement = {
 }
 events = [
   {"type": "player", "position": (1, 9), "sprite": "player.png"},
-  {"type": "level", "position": (16, 13), "level": "village1house1", "newposition": (2,3), "sprite": "house.png"},
+  {"type": "level", "position": (16, 13), "level": "village1house1", "newposition": (3,5), "sprite": "house.png"},
   {"type": "level", "position": (10, 16), "level": "village1house2", "newposition": (2,3), "sprite": "house.png"},
   {"type": "level", "position": (12, 0), "level": "village2", "newposition": (12, 18)},
   {"type": "level", "position": (2, 19), "level": "forest1", "newposition": (2, 1)},

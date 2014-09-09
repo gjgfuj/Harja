@@ -37,6 +37,12 @@ class VNovelLevel(level.Level):
               self.indexchanged = True
           except KeyError:
             pass
+          try:
+            engine.gamegeneral.level.player.position = actiondef["newposition"]
+          except KeyError:
+            pass
+          except AttributeError:
+            pass
         elif action == "setindex":
           self.index = actiondef["index"]
           self.indexchanged = True
