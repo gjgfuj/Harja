@@ -4,12 +4,6 @@ import engine
 import engine.vnovel as vnovel
 import engine.rpg as rpg
 
-import game.maps.village1 as village1
-import game.maps.village1house1 as village1house1
-import game.maps.village1house2 as village1house2
-import game.maps.village2 as village2
-import game.maps.forest1 as forest1
-import game.maps.hiddenvillage as hiddenvillage
 from game.menus import *
 
 class HarjaGame(engine.Game):
@@ -21,6 +15,7 @@ class HarjaGame(engine.Game):
     self.importmap("village2", rpg.RPGOverworldLevel)
     self.importmap("forest1", rpg.RPGOverworldLevel)
     self.importmap("hiddenvillage", rpg.RPGOverworldLevel)
+    self.importmap("forestdungeon.entry", rpg.RPGUnderworldLevel)
     engine.gamegeneral.level = engine.gamegeneral.levels["intro"]
     self.menu = PrimaryMenu()
     self.inmenu = False
