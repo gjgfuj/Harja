@@ -14,3 +14,7 @@ class Level:
     return False
   def init(self):
     pass
+  def save(self):
+    return {}
+  def load(self, save):
+    pass

@@ -22,6 +22,7 @@ class RPGLevel(Level):
         self.bindings[key] = pygame.image.load(os.path.join("assets", "tiles", self.mapfile.bindings[key]))
       except pygame.error:
         pass
+    self.mapmods = {}
   def init(self):
     self.events = []
     for event in self.mapfile.events:
@@ -36,6 +37,20 @@ class RPGLevel(Level):
       if (not event.interactive) and event.position == self.player.position:
         event.interact()
       event.logic()
+  def save(self):
+    eventsave = []
+    for event in self.events:
+      eventsave.append(event.save())
+    return {"eventsave": eventsave, "player": self.player.save(), "mapmods": self.mapmods}
+  def load(self, save):
+    i = 0
+    for eventsave in save["eventsave"]:
+      self.events[i].load(eventsave)
+      i += 1
+    self.player.load(save["player"])
+    self.mapmods = save["mapmods"]
+    for mod in self.mapmods:
+      self.mapfile.m[mod[1]][mod[0]] = self.mapmods[mod]
   def render(self):
     Level.render(self)
     x = 0
@@ -50,7 +65,8 @@ class RPGLevel(Level):
       x = 0
       y += 1
     for event in self.events:
-      gamegeneral.display.blit(event.sprite, (self.topleft[0]+event.position[0]*30, self.topleft[1]+event.position[1]*30))
+      if event.visible:
+        gamegeneral.display.blit(event.sprite, (self.topleft[0]+event.position[0]*30, self.topleft[1]+event.position[1]*30))
     gamegeneral.display.blit(self.player.sprite, (self.topleft[0]+self.player.position[0]*30, self.topleft[1]+self.player.position[1]*30))
   def handleevent(self, event):
     if Level.handleevent(self, event):

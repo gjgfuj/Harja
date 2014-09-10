@@ -34,6 +34,10 @@ class Event:
       self.newposition = eventdesc["newposition"]
     except KeyError:
       self.newposition = False
+    try:
+      self.visible = eventdesc["visible"]
+    except KeyError:
+      self.visible = True
   def changelevel(self, level):
     if self.takescreenshot:
       level.background = gamegeneral.display.copy()
@@ -44,6 +48,7 @@ class Event:
         pass
     try:
       level.script
+      level.levelevent = self
     except AttributeError:
       for e in gamegeneral.level.events:
         try:
@@ -55,6 +60,10 @@ class Event:
     pass
   def logic(self):
     pass
+  def save(self):
+    return {"position":self.position}
+  def load(self, save):
+    self.position = save["position"]
 class BlockEvent(Event):
   def __init__(self, eventdesc, level):
     Event.__init__(self, eventdesc, level)

@@ -1,5 +1,8 @@
 import pygame
 import engine
+import sys
+import os
+import importlib
 class Menu(engine.Level):
   def __init__(self, options, coords, vertical=True, color=(100, 100, 100)):
     engine.Level.__init__(self)
@@ -29,6 +32,26 @@ class Menu(engine.Level):
     engine.gamegeneral.game.inmenu = True
   def prevmenu(self, a):
     engine.gamegeneral.level = self.oldlevel
+    engine.gamegeneral.game.inmenu = False
+  def save(self, a):
+    self.prevmenu(a)
+    f = open("save.py", "w")
+    f.write("globalvars = "+repr(engine.gamegeneral.game.globalvars)+"\n")
+    levelsaves = {}
+    for level in engine.gamegeneral.levels:
+      if engine.gamegeneral.levels[level] == engine.gamegeneral.level:
+        f.write("currentlevel = "+repr(level)+"\n")
+      levelsaves[level] = engine.gamegeneral.levels[level].save()
+    f.write("levelsaves = "+repr(levelsaves))
+    f.close()
+  def load(self, a):
+    f = open("save.py", "rb")
+    exec f
+    f.close()
+    engine.gamegeneral.game.globalvars = globalvars
+    engine.gamegeneral.level = engine.gamegeneral.levels[currentlevel]
+    for levelsave in levelsaves:
+      engine.gamegeneral.levels[levelsave].load(levelsaves[levelsave])
     engine.gamegeneral.game.inmenu = False
   def render(self):
     engine.Level.render(self)

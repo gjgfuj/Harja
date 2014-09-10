@@ -23,6 +23,7 @@ class VNovelLevel(level.Level):
     self.indexchanged = True
     self.font = gamegeneral.font
     self.speaker = ""
+    self.levelevent = None
   def actionperform(self):
     self.indexchanged = False
     try:
@@ -75,10 +76,16 @@ class VNovelLevel(level.Level):
           try:
             level = gamegeneral.levels[actiondef["level"]]
             level.mapfile.m[actiondef["position"][1]][actiondef["position"][0]] = actiondef["tile"]
+            level.mapmods[actiondef["position"]] = actiondef["tile"]
           except KeyError:
             print "changetile KeyError"
           except IndexError:
             print "changetile IndexError"
+        elif action == "togglevisible":
+          try:
+            self.levelevent.visible = not self.levelevent.visible
+          except AttributeError:
+            pass
         elif action == "set":
           try:
             key = actiondef["key"]
@@ -138,7 +145,8 @@ class VNovelLevel(level.Level):
     except KeyError:
       pass
     try:
-      line = self.script[self.index]["line"]
+      scriptpart = self.script[self.index]
+      line = scriptpart["line"]
     except IndexError:
       if not self.indexchanged:
         self.index = 0
@@ -156,6 +164,11 @@ class VNovelLevel(level.Level):
   def logic(self):
     if self.indexchanged:
       self.actionperform()
+  def save(self):
+    return {"index": self.index, "speaker": self.speaker}
+  def load(self, save):
+    self.index = save["index"]
+    self.speaker = save["speaker"]
   def render(self):
     Level.render(self)
     y = 375
