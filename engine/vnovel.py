@@ -34,11 +34,13 @@ class VNovelLevel(level.Level):
           try:
             if actiondef["resetindex"]:
               self.index = -1
-              self.indexchanged = True
           except KeyError:
             pass
           try:
-            engine.gamegeneral.level.player.position = actiondef["newposition"]
+            newposition = actiondef["newposition"]
+            if newposition == (-1,-1):
+              newposition = engine.gamegeneral.level.player.oldposition
+            engine.gamegeneral.level.player.position = newposition
           except KeyError:
             pass
           except AttributeError:
@@ -138,11 +140,13 @@ class VNovelLevel(level.Level):
     try:
       line = self.script[self.index]["line"]
     except IndexError:
-      self.index = 0
-      self.indexchanged = True
+      if not self.indexchanged:
+        self.index = 0
+        self.indexchanged = True
     except KeyError:
-      self.index += 1
-      self.indexchanged = True
+      if not self.indexchanged:
+        self.index += 1
+        self.indexchanged = True
     try:
       self.speaker = self.script[self.index]["speaker"]
     except IndexError:

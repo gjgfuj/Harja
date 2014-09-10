@@ -49,9 +49,9 @@ class RPGLevel(Level):
         x += 1
       x = 0
       y += 1
-    gamegeneral.display.blit(self.player.sprite, (self.topleft[0]+self.player.position[0]*30, self.topleft[1]+self.player.position[1]*30))
     for event in self.events:
       gamegeneral.display.blit(event.sprite, (self.topleft[0]+event.position[0]*30, self.topleft[1]+event.position[1]*30))
+    gamegeneral.display.blit(self.player.sprite, (self.topleft[0]+self.player.position[0]*30, self.topleft[1]+self.player.position[1]*30))
   def handleevent(self, event):
     if Level.handleevent(self, event):
       return True
