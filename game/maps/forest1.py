@@ -38,10 +38,10 @@ events = [
   {"type": "player", "sprite": "player.png"},
   {"type": "level", "position": (2, 0), "level": "village1", "newposition": (2, 18)},
   {"type": "level", "position": (19, 15), "level": "hiddenvillage", "newposition": (1, 15)},
-  {"type": "level", "position": (2, 15), "level": "enterforestdungeon", "sprite": "stairs.png", "screenshot": True},
-  {"type": "block", "position": (2, 4), "sprite": "rock.png", "finalposition": (18,18), "level": "forest1unlock"}
+  {"type": "level", "position": (2, 15), "level": "forest1.enterforestdungeon", "sprite": "stairs.png", "screenshot": True},
+  {"type": "block", "position": (2, 4), "sprite": "rock.png", "finalposition": (18,18), "level": "forest1.unlock"}
 ]
 scripts = [
-  "forest1unlock",
-  "enterforestdungeon"
+  "forest1.unlock",
+  "forest1.enterforestdungeon"
 ]
