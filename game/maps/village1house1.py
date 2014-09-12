@@ -27,3 +27,5 @@ scripts = [
   "village1.nameless1",
   "village1.collectleverstick"
 ]
+mapname = "Marki Village House"
+music = "Village.ogg"

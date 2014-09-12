@@ -45,3 +45,5 @@ scripts = [
   "forest1.unlock",
   "forest1.enterforestdungeon"
 ]
+mapname = "Marki Forest"
+music = "Eerie.ogg"

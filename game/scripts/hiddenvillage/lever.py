@@ -6,6 +6,6 @@ script = [
   {"actions": [{"action": "test", "key": "forestleverstick", "index": 6}]},
   {"actions": [{"action": "setindex", "index": 2}]},
   {"line": "You stick the lever in the hole and pull it."},
-  {"actions": [{"action": "set", "key": "forestdungeon.unlocked"}]},
+  {"actions": [{"action": "set", "key": "forestdungeon.unlocked"}, {"action": "playsound", "sound": "Jingle1.ogg"}]},
   {"actions": [{"action": "changelevel", "level": "hiddenvillage", "resetindex": True}]}
 ]

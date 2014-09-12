@@ -21,3 +21,5 @@ events = [
 scripts = [
   "village1.nameless2"
 ]
+mapname = "Marki Village House"
+music = "Village.ogg"

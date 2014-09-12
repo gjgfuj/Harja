@@ -38,3 +38,5 @@ events = [
 scripts = [
   "hiddenvillage.lever"
 ]
+mapname = "Hidden Village"
+music = "Village.ogg"

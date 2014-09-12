@@ -6,4 +6,6 @@ level = None
 levels = {}
 resolution = (600, 600)
 isRunning = True
-font = pygame.font.SysFont("Monospace", 20)
+font = pygame.font.SysFont("Sans", 20)
+sounds = {}
+song = ""

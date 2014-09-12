@@ -3,7 +3,7 @@ import pygame
 
 class PrimaryMenu(Menu):
   def __init__(self):
-    Menu.__init__(self, [("Stats", self.stats, None), ("Options", self.options, None), ("Save", self.save, None), ("Load", self.load, None), ("Back", self.prevmenu, None)], (400, 300), True)
+    Menu.__init__(self, [("Stats", self.stats, None), ("Options", self.options, None), ("Save", self.save, None), ("Load", self.load, None), ("Quit", self.quit, None), ("Back", self.prevmenu, None)], (400, 300), True)
     self.optionsmenu = OptionsMenu()
     self.statsmenu = StatsMenu()
   def options(self, a):

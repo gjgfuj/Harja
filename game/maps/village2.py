@@ -36,3 +36,5 @@ events = [
 ]
 scripts = [
 ]
+mapname = "Marki Village North"
+music = "Village.ogg"

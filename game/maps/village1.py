@@ -48,3 +48,5 @@ scripts = [
   "village1.archer1",
   "village1.rocksimple"
 ]
+mapname = "Marki Village"
+music = "Village.ogg"
