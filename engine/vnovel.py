@@ -1,6 +1,7 @@
 from engine import *
 import os
 import pygame
+gamegeneral.sounds["TextContinue.ogg"] = pygame.mixer.Sound("assets/sounds/TextContinue.ogg")
 class VNovelMenu(menu.Menu):
   def __init__(self, level, options, color):
     self.level = level
@@ -86,6 +87,17 @@ class VNovelLevel(level.Level):
             self.levelevent.visible = not self.levelevent.visible
           except AttributeError:
             pass
+        elif action == "playsound":
+          try:
+            sname = actiondef["sound"]
+          except KeyError:
+            sname = "Jingle1.ogg"
+          try:
+            sound = gamegeneral.sounds[sname]
+          except KeyError:
+            gamegeneral.sounds[sname] = pygame.mixer.Sound("assets/sounds/"+sname)
+            sound = gamegeneral.sounds[sname]
+          sound.play()
         elif action == "set":
           try:
             key = actiondef["key"]
@@ -192,5 +204,6 @@ class VNovelLevel(level.Level):
     if event == "interact" or event == "click":
       self.index += 1
       self.indexchanged = True
+      gamegeneral.sounds["TextContinue.ogg"].play()
       return True
 

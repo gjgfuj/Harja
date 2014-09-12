@@ -3,6 +3,8 @@ import os
 from engine import *
 from engine.rpg import *
 
+gamegeneral.sounds["RockPush.ogg"] = pygame.mixer.Sound("assets/sounds/RockPush.ogg")
+gamegeneral.sounds["RockFall.ogg"] = pygame.mixer.Sound("assets/sounds/RockFall.ogg")
 class Event:
   def __init__(self, eventdesc, level):
     self.eventdesc = eventdesc
@@ -73,6 +75,14 @@ class BlockEvent(Event):
     except KeyError:
       print "Error at position"
       self.endposition = (-1, -1)
+    try:
+      self.pushsound = eventdesc["pushsound"]
+    except KeyError:
+      self.pushsound = "RockPush.ogg"
+    try:
+      self.endsound = eventdesc["endsound"]
+    except KeyError:
+      self.endsound = "RockFall.ogg"
     endlevel = ""
     try:
       endlevel = eventdesc["level"]
@@ -93,11 +103,13 @@ class BlockEvent(Event):
         return
     if self.position != self.endposition and (self.endposition == nuposition or self.level.mapfile.movement[self.level.mapfile.m[nuposition[1]][nuposition[0]]]):
       self.position = nuposition
+      gamegeneral.sounds[self.pushsound].play()
     else:
       self.level.player.position = (self.level.player.position[0]-direction[0], self.level.player.position[1]-direction[1])
       return
     if self.position == self.endposition:
       print "Reached end position."
+      gamegeneral.sounds[self.endsound].play()
       self.changelevel(self.endlevel)
   def resetblock(self):
     self.position = self.originalposition

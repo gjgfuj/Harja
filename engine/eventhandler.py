@@ -8,3 +8,5 @@ class EventHandler:
     elif name == "quit":
       engine.gamegeneral.game.quit()
     return False
+  def handlekey(self, key):
+    pass

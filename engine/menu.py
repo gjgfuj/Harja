@@ -30,6 +30,9 @@ class Menu(engine.Level):
     if self != level:
       self.oldlevel = level
     engine.gamegeneral.game.inmenu = True
+    engine.gamegeneral.sounds["TextContinue.ogg"].play()
+  def quit(self, a):
+    engine.gamegeneral.game.quit()
   def prevmenu(self, a):
     engine.gamegeneral.level = self.oldlevel
     engine.gamegeneral.game.inmenu = False
@@ -66,3 +69,4 @@ class Menu(engine.Level):
         if option[0] < pos[0] < option[0]+option[2]:
           if option[1] < pos[1] < option[1]+option[3]:
             self.options[option][1](self.options[option][2])
+            engine.gamegeneral.sounds["TextContinue.ogg"].play()

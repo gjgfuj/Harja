@@ -15,6 +15,14 @@ class RPGLevel(Level):
         print "Imported "+script
     except AttributeError:
       print "No scripts."
+    try:
+      self.musicname = self.mapfile.music
+    except AttributeError:
+      self.musicname = None
+    try:
+      self.mapname = self.mapfile.mapname
+    except AttributeError:
+      self.mapname = ""
     self.topleft = (600/2-len(self.mapfile.m[0])*30/2, 600/2-len(self.mapfile.m)*30/2)
     self.bindings = {}
     for key in self.mapfile.bindings:
@@ -37,6 +45,13 @@ class RPGLevel(Level):
       if (not event.interactive) and event.position == self.player.position:
         event.interact()
       event.logic()
+    if self.musicname == None:
+      pygame.mixer.music.stop()
+      gamegeneral.song = None
+    if self.musicname != None and gamegeneral.song != self.musicname:
+      pygame.mixer.music.load("assets/music/"+self.musicname)
+      pygame.mixer.music.play(-1)
+      gamegeneral.song = self.musicname
   def save(self):
     eventsave = []
     for event in self.events:
@@ -68,6 +83,9 @@ class RPGLevel(Level):
       if event.visible:
         gamegeneral.display.blit(event.sprite, (self.topleft[0]+event.position[0]*30, self.topleft[1]+event.position[1]*30))
     gamegeneral.display.blit(self.player.sprite, (self.topleft[0]+self.player.position[0]*30, self.topleft[1]+self.player.position[1]*30))
+    rendered = self.font.render(self.mapname, False, self.mapnamecolor)
+    gamegeneral.display.fill((255-self.mapnamecolor[0], 255-self.mapnamecolor[1], 255-self.mapnamecolor[2]), (300-rendered.get_width()/2,3,rendered.get_width(),rendered.get_height()))
+    gamegeneral.display.blit(rendered, (300-rendered.get_width()/2,3))
   def handleevent(self, event):
     if Level.handleevent(self, event):
       return True
@@ -103,7 +121,9 @@ class RPGOverworldLevel(RPGLevel):
   def __init__(self, mapfile):
     RPGLevel.__init__(self, mapfile)
     self.background.fill((0,200,0))
+    self.mapnamecolor = (200, 0, 20)
 class RPGUnderworldLevel(RPGLevel):
   def __init__(self, mapfile):
     RPGLevel.__init__(self, mapfile)
     self.background.fill((0,0,0))
+    self.mapnamecolor = (255,255,255)
